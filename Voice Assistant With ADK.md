@@ -59,6 +59,26 @@ main.py => Backend Handling code
 [Frontend Updates UI / Plays Audio]
 
 
+## Explaining how the backend code is calling the agent
+
+live_events = runner.run_live(
+    session=session,
+    live_request_queue=live_request_queue,
+    run_config=run_config,
+)
+
+
+
+This line is NOT directly calling create_event, delete_event, or edit_event. Instead, it:
+
+Starts a live interaction loop between your agent (defined in root_agent) and the user session.
+
+live_events is an async generator — it continuously yields events (like replies, errors, audio playback, etc.).
+
+It listens for user inputs (via the live_request_queue).
+
+It routes inputs to your agent logic (in root_agent) which then decides what to do — e.g., call create_event() or delete_event().
+
 
 
 
